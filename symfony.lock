@@ -44,9 +44,6 @@
             "src/Repository/.gitignore"
         ]
     },
-    "doctrine/doctrine-cache-bundle": {
-        "version": "1.4.0"
-    },
     "doctrine/doctrine-fixtures-bundle": {
         "version": "3.0",
         "recipe": {
@@ -96,6 +93,9 @@
     "doctrine/reflection": {
         "version": "1.2.2"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.1"
+    },
     "egulias/email-validator": {
         "version": "3.1.1"
     },
@@ -104,9 +104,6 @@
     },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.4"
-    },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
     },
     "laminas/laminas-code": {
         "version": "4.2.0"

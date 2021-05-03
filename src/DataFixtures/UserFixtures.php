@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserFixtures extends Fixture implements FixtureInterface
 {
     /**
-     * UserFixtures constructor.
+     * UserFixtures constructor: encode password for more security
      * @param UserPasswordEncoderInterface $encoder
      */
     public function __construct(UserPasswordEncoderInterface $encoder)
@@ -22,24 +22,24 @@ class UserFixtures extends Fixture implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $user1 = new User();
-        $hash = $this->encoder->encodePassword($user1, 'pass');
         $user1->setUsername('userTest');
         $user1->setEmail('userTest@mail.com');
-        $user1->setPassword($hash);
+        $user1->setPassword($this->encoder->encodePassword($user1, 'pass'));
+        $user1->setRoles(['ROLE_ADMIN']);
         $manager->persist($user1);
 
         $user2 = new User();
-        $hash = $this->encoder->encodePassword($user2, 'pass2');
         $user2->setUsername('jean');
         $user2->setEmail('jean@mail.com');
-        $user2->setPassword($hash);
+        $user2->setPassword($this->encoder->encodePassword($user2, 'pass2'));
+        $user2->setRoles(['ROLE_USER']);
         $manager->persist($user2);
 
         $user3 = new User();
-        $hash = $this->encoder->encodePassword($user3, 'pass3');
         $user3->setUsername('charlie');
         $user3->setEmail('charlie@mail.com');
-        $user3->setPassword($hash);
+        $user3->setPassword($this->encoder->encodePassword($user3, 'pass3'));
+        $user3->setRoles(['ROLE_USER']);
         $manager->persist($user3);
 
         $manager->flush();

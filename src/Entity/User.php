@@ -40,17 +40,17 @@ class User implements UserInterface
      */
     private $email;
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    /**
+     * @ORM\Column (type="json")
+     */
+    private $roles= [];
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUsername()
+    public function getUsername():?string
     {
         return $this->username;
     }
@@ -60,12 +60,19 @@ class User implements UserInterface
         $this->username = $username;
     }
 
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
     public function getSalt()
     {
         return null;
     }
 
-    public function getPassword()
+    public function getPassword():?string
     {
         return $this->password;
     }
@@ -75,7 +82,7 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    public function getEmail()
+    public function getEmail():?string
     {
         return $this->email;
     }
@@ -85,11 +92,29 @@ class User implements UserInterface
         $this->email = $email;
     }
 
+    /**
+     * Returns the roles granted to the user.
+     */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        $roles = $this->roles;
+            $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
     public function eraseCredentials()
     {
     }

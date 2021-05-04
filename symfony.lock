@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "dama/doctrine-test-bundle": {
         "version": "4.0",
         "recipe": {
@@ -110,6 +113,9 @@
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
+    },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.0.5"
     },
     "incenteev/composer-parameter-handler": {
         "version": "v2.1.4"
@@ -238,6 +244,18 @@
     },
     "sensio/framework-extra-bundle": {
         "version": "v3.0.27"
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        },
+        "files": [
+            "config/packages/stof_doctrine_extensions.yaml"
+        ]
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.7"

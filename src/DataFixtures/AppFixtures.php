@@ -3,15 +3,49 @@
 namespace App\DataFixtures;
 
 use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class TaskFixtures extends Fixture implements FixtureInterface
+class AppFixtures extends Fixture implements FixtureInterface
 {
+    /**
+     * AppFixtures constructor: encode password for more security
+     * @param UserPasswordEncoderInterface $encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     public function load(ObjectManager $manager)
     {
+        //users
+
+        $user1 = new User();
+        $user1->setUsername('Administrateur');
+        $user1->setEmail('adminUser@mail.com');
+        $user1->setPassword($this->encoder->encodePassword($user1, 'pass'));
+        $user1->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user1);
+
+        $user2 = new User();
+        $user2->setUsername('Utilisateur');
+        $user2->setEmail('user@mail.com');
+        $user2->setPassword($this->encoder->encodePassword($user2, 'pass2'));
+        $user2->setRoles(['ROLE_USER']);
+        $manager->persist($user2);
+
+        $user3 = new User();
+        $user3->setUsername('anonyme');
+        $user3->setEmail('anonyme@mail.com');
+        $user3->setPassword($this->encoder->encodePassword($user3, 'pass3'));
+        $user3->setRoles(['ROLE_USER']);
+        $manager->persist($user3);
+
+        //tasks
         for ($i = 1; $i <= 5; $i++) {
             $task1 = new Task();
             $task1->setCreatedAt(new \DateTime('2021-04-01 10:14:34'));
@@ -21,6 +55,9 @@ class TaskFixtures extends Fixture implements FixtureInterface
         perduelles gravia adulescentem spiritus praedatricibus quibus eorum cuncta latrociniis raris motibus bella
         quibus hac praedatricibus obiecti feris perciti indignitate spiritus capiti adulescentem adfligebat quidam
         erigentes saepeque.');
+            $task1->setIsDone(false);
+            $task1->setSlug($task1->getTitle());
+            $task1->setUsers($user3);
             $manager->persist($task1);
         }
 
@@ -33,6 +70,9 @@ class TaskFixtures extends Fixture implements FixtureInterface
         perduelles gravia adulescentem spiritus praedatricibus quibus eorum cuncta latrociniis raris motibus bella
         quibus hac praedatricibus obiecti feris perciti indignitate spiritus capiti adulescentem adfligebat quidam
         erigentes saepeque.');
+            $task2->setIsDone(false);
+            $task2->setSlug($task2->getTitle());
+            $task2->setUsers($user1);
             $manager->persist($task2);
         }
 
@@ -45,8 +85,12 @@ class TaskFixtures extends Fixture implements FixtureInterface
         perduelles gravia adulescentem spiritus praedatricibus quibus eorum cuncta latrociniis raris motibus bella
         quibus hac praedatricibus obiecti feris perciti indignitate spiritus capiti adulescentem adfligebat quidam
         erigentes saepeque.');
+            $task3->setIsDone(false);
+            $task3->setSlug($task3->getTitle());
+            $task3->setUsers($user2);
             $manager->persist($task3);
         }
+
         $manager->flush();
     }
 }

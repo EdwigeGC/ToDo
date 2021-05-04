@@ -23,6 +23,7 @@
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/framework-extra-bundle": "^6.1",
+        "stof/doctrine-extensions-bundle": "^1.6",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.4.*",
         "symfony/browser-kit": "^4.4",

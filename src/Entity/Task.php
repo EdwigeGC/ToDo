@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TaskRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,6 +41,18 @@ class Task
      * @ORM\Column(type="boolean")
      */
     private $isDone;
+
+    /**
+     * @ORM\Column (type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $users;
 
     public function __construct()
     {
@@ -87,6 +100,16 @@ class Task
         return $this->isDone;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
     public function toggle($flag)
     {
         $this->isDone = $flag;
@@ -100,6 +123,22 @@ class Task
     public function setIsDone(bool $isDone): self
     {
         $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    public function getUsers(): ?User
+    {
+        $users = $this->users;
+        if (empty($users)) {
+            $users= 'anonyme';
+        }
+        return $this->users;
+    }
+
+    public function setUsers(?User $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

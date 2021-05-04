@@ -31,6 +31,7 @@ class UserController extends AbstractController
      */
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder):Response
     {
+        $this->denyAccessUnlessGranted('USER_EDIT',$this->getUser());
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -58,6 +59,7 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
+        $this->denyAccessUnlessGranted('USER_EDIT', $this->getUser());
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);

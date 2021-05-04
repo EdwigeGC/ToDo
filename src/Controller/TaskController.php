@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use Doctrine\Persistence\ObjectManager;
 use App\Repository\TaskRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request)
+    public function createAction(Request $request, ObjectManager $manager)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -30,10 +31,10 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $task->setUsers($this->getUser());
 
-            $em->persist($task);
-            $em->flush();
+            $manager->persist($task);
+            $manager->flush();
 
             $this->addFlash('success', 'La tâche a été bien été ajoutée.');
 
@@ -44,9 +45,9 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{slug}/edit", name="task_edit")
      */
-    public function editAction(Task $task, Request $request)
+    public function editAction(Task $task, Request $request, $slug)
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -59,7 +60,6 @@ class TaskController extends AbstractController
 
             return $this->redirectToRoute('task_list');
         }
-
         return $this->render('task/edit.html.twig', [
             'form' => $form->createView(),
             'task' => $task,
@@ -67,23 +67,24 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{slug}/toggle", name="task_toggle")
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTaskAction(Task $task, $slug)
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash('success','La tâche ' .$task->getTitle(). ' a bien été marquée comme faite.');
 
         return $this->redirectToRoute('task_list');
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
+     * @Route("/tasks/{slug}/delete", name="task_delete")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTaskAction(Task $task, $slug)
     {
+        $this->denyAccessUnlessGranted('TASK_DELETE', $task);
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();

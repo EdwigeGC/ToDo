@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div>
+        <p class="text-blue">Créée par {{ task.users.username }}, le {{ task.createdAt|date("d/m/Y à H:i:s") }} </p>
+    </div>
+
     <div class="row">
-        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
+        {{ form_start(form, {'action' : path('task_edit', { 'slug' : task.slug })}) }}
             {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+            <button type="submit" class="btn btn-success pull-right">Enregistrer les modifications</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

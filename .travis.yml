@@ -1,16 +1,41 @@
+# Project language
 language: php
+
+# php version
 php:
   - '7.4'
 
+# Allows use container-based infrastructure
+sudo: false
+
+# Start mysql service
 services:
   - mysql
 
+# Define an environment variable
+env:
+  - SYMFONY_VERSION="4.4.*" DB=mysql
+
+test:
+  adapter: mysql
+  username: root
+  password: root
+  encoding: utf8
+
+# Update composer
+before-install:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
+# Install composer dependencies,
+# Create database, schema and fixtures
 install:
   - composer install --prefer-dist --no-interaction
   - php bin/console doctrine:database:create --env=test
-  - php bin/console doctrine:schema:update --force --env=test
+  - php bin/console doctrine:schema:update --env=test
   - php bin/console doctrine:fixtures:load -n --env=test
 
+# Run script
 script:
-  - php bin/phpunit
-
+  - composer install
+  - vendor/bin/phpunit

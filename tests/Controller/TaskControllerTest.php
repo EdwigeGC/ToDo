@@ -2,14 +2,10 @@
 
 namespace App\Tests\Controller;
 
-use App\Repository\TaskRepository;
 use App\Tests\NeedLogin;
 use App\DataFixtures\TaskFixtures;
-use Doctrine\Common\DataFixtures\Loader;
-use App\Entity\Task;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Doctrine\Persistence\ObjectManager;
+
 
 class TaskControllerTest extends WebTestCase
 {
@@ -22,83 +18,122 @@ class TaskControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function testDisplayTaskList()
+    public function testDisplayTaskListForUser()
     {
-        $this->loginAdmin();
+        $this->loginUser();
+
         $this->client->request('GET', '/tasks');
 
         $this->assertResponseStatusCodeSame(200);
     }
 
-    public function testAccessDeniedForVisitor()
+    public function testTaskListNoAccessForAnonymous()
     {
         $this->client->request('GET', '/tasks');
-
         $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/login");
+        //alert danger?
     }
 
     public function testDisplayFormForCreateTask()
     {
-        $this->client->request('GET', '/tasks/create');
+        $this->loginUser();
 
+        $this->client->request('GET', '/tasks/create');
         $this->assertResponseStatusCodeSame(200);
     }
 
     public function testCreateActionTask()
     {
-        $crawler = $this->client->request('GET', '/tasks/create');
+        $this->loginUser();
 
+        $crawler = $this->client->request('GET', '/tasks/create');
         $form = $crawler->selectButton('Ajouter')->form();
         $form['task[title]'] = 'newTask';
         $form['task[content]'] = 'new content task';
-
         $this->client->submit($form);
 
-        //$this->assertResponseStatusCodeSame(200);
-        $crawler=$this->client->followRedirect('/tasks');
+        $this->assertResponseStatusCodeSame(302);
+        $crawler=$this->client->followRedirect();
+        $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div', 'alert.alert-success');
-    }
-
-    public function testCreateWithEmptyData()
-    {
-       $crawler = $this->client->request('GET', '/tasks/create');
-
-        $form = $crawler->selectButton('Ajouter')->form();
-        $form['task[title]'] = 'newTaskN';
-        $form['task[content]'] = 'new content taskN';
-
-        $this->client->submit($form);
-        $this->assertSelectorExists('div.alert.alert-danger');
     }
 
     public function testDisplayFormForEditTask()
     {
-        $this->client->request('GET', '/tasks/6/edit');
+        $this->loginUser();
+        $this->client->request('GET', '/tasks/task2/edit');
         $this->assertResponseStatusCodeSame(200);
+    }
+
+    public function testTaskModificationFormForAnonymous()
+    {
+        $this->client->request('GET', '/tasks/task2/edit');
+        $this->assertResponseStatusCodeSame(302);
     }
 
     public function testEditActionTask()
     {
-        $crawler=$this->client->request('GET', '/tasks/12/edit');
-        $form = $crawler->selectButton('Ajouter')->form();
-            $form['task[title]'] = 'newTask edited';
-            $form['task[content]'] = 'new content task edited';
-
+        $this->loginUser();
+        $crawler=$this->client->request('GET', '/tasks/task2/edit');
+        $form = $crawler->selectButton('Enregistrer les modifications')->form();
+        $form['task[title]'] = 'Task edited';
+        $form['task[content]'] = 'content task edited';
         $this->client->submit($form);
+
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/tasks");
+        $crawler=$this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('div.alert.alert-success');
     }
 
-    public function testDeleteTask()
+    public function testDeleteTaskAssignedToUser()
     {
-        $this->client->request('GET', '/tasks/12/delete');
-
+        $this->loginUser();
+        $this->client->request('GET', '/tasks/task12/delete');
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/tasks");
+        $crawler=$this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('div.alert.alert-success');
+    }
+
+    public function testAdminDeleteAnonymousTask()
+    {
+        $this->loginAdmin();
+        $this->client->request('GET', '/tasks/task5/delete');
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/tasks");
+        $crawler=$this->client->followRedirect();
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('div.alert.alert-success');
+    }
+
+    public function testUserDeleteAnonymousTask()
+    {
+        $this->loginUser();
+        $this->client->request('GET', '/tasks/task5/delete');
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteTaskNotAssignedToUser()
+    {
+        $this->loginUser();
+        $this->client->request('GET', '/tasks/task2/delete');
+        $this->assertResponseStatusCodeSame(403);
     }
 
     public function testToggleTask()
     {
-        $this->client->request('GET', '/tasks/12/toggle');
+        $this->loginUser();
+
+        $this->client->request('GET', '/tasks/task3/toggle');
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/tasks");
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('div.alert.alert-success');
     }
 
     public function tearDown():void

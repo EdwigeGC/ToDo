@@ -18,7 +18,7 @@ class UserVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['USER_EDIT', 'USER_VIEW'])
+        return in_array($attribute, ['USER_EDIT'])
             && $subject instanceof \App\Entity\User;
     }
 
@@ -33,11 +33,6 @@ class UserVoter extends Voter
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case 'USER_EDIT':
-                if ($this->security->isGranted('ROLE_ADMIN')) {
-                    return true;
-                }
-                break;
-            case 'USER_VIEW':
                 if ($this->security->isGranted('ROLE_ADMIN')) {
                     return true;
                 }

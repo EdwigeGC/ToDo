@@ -143,7 +143,7 @@ class User implements UserInterface
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks[] = $task;
-            $task->setUser($this);
+            $task->setUsers($this);
         }
 
         return $this;
@@ -153,8 +153,8 @@ class User implements UserInterface
     {
         if ($this->tasks->removeElement($task)) {
             // set the owning side to null (unless already changed)
-            if ($task->getUser() === $this) {
-                $task->setUser(null);
+            if ($task->getUsers() === $this) {
+                $task->setUsers(null);
             }
         }
 

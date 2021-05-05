@@ -3,9 +3,10 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Task;
-use PHPUnit\Framework\TestCase;
+use App\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class TaskTest extends TestCase
+class TaskTest extends WebTestCase
 {
     private $task;
 
@@ -24,6 +25,12 @@ class TaskTest extends TestCase
         $date = new \DateTime();
         $this->task->setCreatedAt($date);
         $this->assertSame($date, $this->task->getCreatedAt());
+    }
+
+    public function testSlug()
+    {
+        $this->task->setSlug('newtask');
+        $this->assertSame('newtask', $this->task->getSlug());
     }
 
     public function testTitle()
@@ -46,5 +53,10 @@ class TaskTest extends TestCase
         $this->assertSame(true, $this->task->isDone());
     }
 
+        public function testUsers()
+    {
+        $this->task->setUsers(new User());
+        $this->assertInstanceOf(User::class, $this->task->getUsers());
+    }
 
 }

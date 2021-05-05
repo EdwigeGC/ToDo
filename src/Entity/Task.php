@@ -129,10 +129,6 @@ class Task
 
     public function getUsers(): ?User
     {
-        $users = $this->users;
-        if (empty($users)) {
-            $users= 'anonyme';
-        }
         return $this->users;
     }
 

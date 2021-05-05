@@ -4,21 +4,31 @@ namespace App\Tests;
 
 trait NeedLogin
 {
+    /*private $client;
+
+    public function __construct()
+    {
+        $this->client = static::createClient();
+    }*/
+
     public function loginAdmin ()
     {
-        $this->client->request('POST', '/login', [
-        '_username'=> 'AdminTest',
-        '_password'=>'pass',
-        'role'=>'ROLE_ADMIN'
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $this->client->submit($form, [
+            'username' => 'Administrateur',
+            'password' => 'pass'
         ]);
     }
 
     public function loginUser()
     {
-        $this->client->request('POST', '/login', [
-            '_username'=> 'UserTest',
-            '_password'=>'pass',
-            'role'=>'ROLE_USER'
+        $crawler = $this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $this->client->submit($form, [
+            'username' => 'Utilisateur',
+            'password' => 'pass2'
         ]);
+
     }
 }

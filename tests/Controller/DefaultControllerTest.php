@@ -17,29 +17,28 @@ class DefaultControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    /*public function testDisplayHomeForUser()
+    public function testDisplayHomeForUser()
     {
-        $this->loginAdmin($this->client);
+        $this->loginUser();
         $this->client->request('GET', '/');
-
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List');
-    }*/
+        $this->assertSelectorExists('h1', 'Bienvenue sur ToDo List');
+    }
+
+    public function testDisplayHomeForAdmin()
+    {
+        $this->loginAdmin();
+        $this->client->request('GET', '/');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('link', 'Créer un utilisateur');
+    }
 
     public function testRestrictedAccessForAnonymous()
     {
         $this->client->request('GET', '/');
 
-        $this->assertResponseStatusCodeSame(302);    //403
-        $this->assertResponseRedirects();   ///login?
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/login");   ///login?
         //$this->assertSelectorExists('.alert.alert-danger');
     }
-
-    /*public function testDisplayHomeForAdmin()
-    {
-        $this->client->request('GET', '/');
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertSelectorTextContains('button', 'Créer un utilisateur');
-    }*/
 }

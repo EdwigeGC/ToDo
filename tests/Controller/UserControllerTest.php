@@ -4,9 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Tests\NeedLogin;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Loader;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 
 class UserControllerTest extends WebTestCase
 {
@@ -19,78 +16,110 @@ class UserControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
-    public function testDisplayUsersList()
+    public function testDisplayListForAdminUser()
     {
-        $this->loginAdmin($this->client);
+        $this->loginAdmin();
         $this->client->request('GET', '/users');
 
         $this->assertResponseStatusCodeSame(200);
     }
 
-    /*public function testAccessDeniedForUserManagement()
+    public function testUserListNoAccessForUserRole()
     {
-        $this->loginUser($this->client);
+        $this->loginUser();
         $this->client->request('GET', '/users');
-
         $this->assertResponseStatusCodeSame(403);
-        $this->client->followRedirect();
-        $this->assertSelectorExists('div', 'alert.alert-danger');
-    }*/
+        /*$this->client->followRedirect();
+        $this->assertSelectorExists('div', 'alert.alert-danger');*/
+    }
 
-    public function testDisplayFormForCreateUser()
+    public function testUserListNoAccessForAnonymous()
+    {
+        $this->client->request('GET', '/users');
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/login");
+    }
+
+
+    public function testDisplayRegistrationForm()
+    {
+        $this->loginAdmin();
+        $this->client->request('GET', '/users/create');
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    public function testNoUserCreationFormForUserRole()
+    {
+        $this->loginUser();
+        $this->client->request('GET', '/users/create');
+        $this->assertResponseStatusCodeSame(403);
+        /*$this->client->followRedirect();
+        $this->assertSelectorExists('div', 'alert.alert-danger');*/
+    }
+
+    public function testNoUserCreationFormForAnonymous()
     {
         $this->client->request('GET', '/users/create');
-
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/login");
     }
 
     public function testCreateUser()
     {
-        $crawler = $this->client->request('GET', '/users/create');
+        $this->loginAdmin();
 
+        $crawler = $this->client->request('GET', '/users/create');
         $form = $crawler->selectButton('Ajouter')->form();
-        $form['user[username]'] = 'user';
+        $form['user[username]'] = 'new user';
         $form['user[password][first]'] = 'pass';
         $form['user[password][second]'] = 'pass';
-        $form['user[email]'] = 'user@email.com';
-        //$form['ROLE_USER']->tick();
+        $form['user[email]'] = 'newUser@email.com';
+        $form['user[roles][0]']->select('ROLE_USER');
         $this->client->submit($form);
 
-        $this->assertSelectorExists('div', 'Superbe !');
-
-        /*
-
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects('/users');
+        $crawler=$this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSelectorExists('div', 'alert.alert-success');
-        //$this->assertResponseRedirects();*/
+        $this->assertSelectorExists('div.alert.alert-success');
     }
 
-    /*public function testCreateWithBadData()
+    public function testUserModificationFormForAdmin()
     {
-        $this->client->request('POST', '/users/create', [
-            '_username'=> 'userTest',
-            '_password_first'=>'pass',
-            '_password_second'=>'pass2',
-            '_email'=> 'userTest.email.com'
-            //'_role'=>'ROLE_USER'
-        ]);
-
-        $this->assertResponseStatusCodeSame(400);
-        //$this->assertResponseRedirects('/users/create');
-        $this->client->followRedirect();
-        $this->assertSelectorExists('div', 'alert.alert-danger');
-    }*/
-
-    public function testDisplayFormForEditUser()
-    {
-        $this->client->request('GET', '/users/4/edit');
-
+        $this->loginAdmin();
+        $this->client->request('GET', '/users/43/edit');
         $this->assertResponseStatusCodeSame(200);
     }
 
-    /*public function testEditActionUser()
+    public function testUserModificationFormForUser()
     {
+        $this->loginUser();
+        $this->client->request('GET', '/users/43/edit');
+        $this->assertResponseStatusCodeSame(403);
+    }
 
-    }*/
+    public function testUserModificationFormForAnonymous()
+    {
+        $this->client->request('GET', '/users/43/edit');
+        $this->assertResponseStatusCodeSame(302);
+    }
+
+    public function testEditUser()
+    {
+        $this->loginAdmin();
+        $crawler=$this->client->request('GET', '/users/43/edit');
+        $form = $crawler->selectButton('Modifier')->form();
+        $form['user[username]'] = 'new userName'; //modification du username
+        $form['user[password][first]'] = 'pass';
+        $form['user[password][second]'] = 'pass';
+        $form['user[roles][0]']->select('ROLE_ADMIN'); //modification du rôle
+        $this->client->submit($form);
+
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/users");
+        $crawler=$this->client->followRedirect();
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorExists('div.alert.alert-success');
+    }
 
 }

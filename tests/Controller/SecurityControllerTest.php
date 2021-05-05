@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class SecurityControllerTest extends WebTestCase
 {
+    use NeedLogin;
+
     private $client;
 
     public function setUp():void
@@ -22,34 +24,42 @@ class SecurityControllerTest extends WebTestCase
         $this->assertSelectorTextContains('button', 'Se connecter');
     }
 
-
-    /*public function testLoginWithBadCredentials()
+    public function testLoginSuccess()
     {
-        $this->client->request('POST', '/login', [
-            '_username'=> 'fakeUser',
-            '_password'=>'fakePass'
+        $crawler=$this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $this->client->submit($form, [
+            'username' => 'Utilisateur',
+            'password' => 'pass2'
         ]);
         $this->assertResponseStatusCodeSame(302);
-        $this->client->followRedirect();
-        $this->assertSelectorExists('div', 'alert.alert-danger');
-    }*/
+        $this->assertResponseRedirects("/");
+        $crawler=$this->client->followRedirect();
+        $this->assertResponseStatusCodeSame(200);
+    }
 
-    /*public function testLoginSuccess()
+    public function testLoginWithBadCredentials()
     {
-        $this->client->request('POST', '/login', [
-            '_username'=> 'UserTest',
-            '_password'=>'pass'
+        $crawler=$this->client->request('GET', '/login');
+        $form = $crawler->selectButton('Se connecter')->form();
+        $this->client->submit($form, [
+            'username' => 'fakeUser',
+            'password' => 'fakePass'
         ]);
-
+        $this->assertResponseStatusCodeSame(302);
+        $this->assertResponseRedirects("/login");
+        $crawler=$this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
-        $this->client->followRedirect();
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List');
-    }*/
+        $this->assertSelectorExists('div.alert.alert-danger');
+    }
 
-    /*public function testLogOut()
+    public function testLogOut()
     {
+        $this->loginUser();
         $crawler = $this->client->request('GET', '/');
+        $this->assertSelectorExists('a.pull-right.btn.btn-danger');
         $crawler->selectLink('Se déconnecter')->link();
+        $this->throwException(new \LogicException());
         $this->assertResponseStatusCodeSame(200);
-    }*/
+    }
 }

@@ -34,16 +34,19 @@ class TaskVoter extends Voter
         switch ($attribute) {
             case 'TASK_DELETE':
                 if ($user === $subject->getUsers()) {
+                    //the user must be the author of the subject
                     return true;
                 }
                 if ($subject->getUsers()->getUsername() === "anonyme" && $this->security->isGranted('ROLE_ADMIN'))
                 {
+                    //only admin user can delete tasks assigned to the anonymous author
                     return true;
                 }
                 break;
             case 'TASK_EDIT':
                 if($this->security->isGranted('ROLE_USER'))
                 {
+                    //the user must be logged in
                     return true;
                 }
                 break;

@@ -29,8 +29,6 @@ class UserControllerTest extends WebTestCase
         $this->loginUser();
         $this->client->request('GET', '/users');
         $this->assertResponseStatusCodeSame(403);
-        /*$this->client->followRedirect();
-        $this->assertSelectorExists('div', 'alert.alert-danger');*/
     }
 
     public function testUserListNoAccessForAnonymous()
@@ -96,12 +94,6 @@ class UserControllerTest extends WebTestCase
         $this->loginUser();
         $this->client->request('GET', '/users/43/edit');
         $this->assertResponseStatusCodeSame(403);
-    }
-
-    public function testUserModificationFormForAnonymous()
-    {
-        $this->client->request('GET', '/users/43/edit');
-        $this->assertResponseStatusCodeSame(302);
     }
 
     public function testEditUser()

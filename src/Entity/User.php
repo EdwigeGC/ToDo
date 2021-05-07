@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface
 {
     /**
+     * @var integer
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,17 +26,20 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=25, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur.")
      */
     private $username;
 
     /**
+     * @var string
      * @ORM\Column(type="string")
      */
     private $password;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=60, unique=true)
      * @Assert\NotBlank(message="Vous devez saisir une adresse email.")
      * @Assert\Email(message="Le format de l'adresse n'est pas correcte.")
@@ -43,11 +47,13 @@ class User implements UserInterface
     private $email;
 
     /**
+     * @var array
      * @ORM\Column (type="json")
      */
     private $roles= [];
 
     /**
+     * @var object
      * @ORM\OneToMany(targetEntity=Task::class, mappedBy="User", orphanRemoval=true)
      */
     private $tasks;

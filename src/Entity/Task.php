@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Task
 {
     /**
+     * @var integer
+     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -21,34 +23,46 @@ class Task
     private $id;
 
     /**
+     * @var Datetime
+     *
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
     private $title;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Vous devez saisir du contenu.")
      */
     private $content;
 
     /**
+     * @var boolean
+     *
      * @ORM\Column(type="boolean")
      */
     private $isDone;
 
     /**
+     * @var string
+     *
      * @ORM\Column (type="string", length=255, nullable=true)
      * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
 
     /**
+     * @var object
+     *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */

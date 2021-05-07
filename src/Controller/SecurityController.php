@@ -11,14 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 class SecurityController extends AbstractController
 {
     /**
+     * Displays the login form and authenticate user
+     *
      * @Route("/login", name="app_login")
+     *
+     * @param AuthenticationUtils $authenticationUtils
+     *
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -28,6 +30,8 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * Function to logout a user
+     *
      * @Route("/logout", name="app_logout")
      */
     public function logout()

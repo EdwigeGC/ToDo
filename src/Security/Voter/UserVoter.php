@@ -30,10 +30,10 @@ class UserVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case 'USER_EDIT':
                 if ($this->security->isGranted('ROLE_ADMIN')) {
+                    //only admin user can manage users
                     return true;
                 }
                 break;

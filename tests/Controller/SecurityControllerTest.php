@@ -34,7 +34,7 @@ class SecurityControllerTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
     }
 
@@ -48,7 +48,7 @@ class SecurityControllerTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/login");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-danger');
     }

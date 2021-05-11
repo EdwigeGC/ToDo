@@ -24,7 +24,7 @@ class UserController extends AbstractController
      * @param UserRepository $repository
      * @return Response
      */
-    public function listAction(UserRepository $repository)
+    public function list(UserRepository $repository)
     {
         $this->denyAccessUnlessGranted('USER_EDIT',$this->getUser());
         return $this->render('user/list.html.twig', ['users' => $repository->findAll()]);
@@ -40,7 +40,7 @@ class UserController extends AbstractController
      *
      * @return Response
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager):Response
+    public function create(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager):Response
     {
         $this->denyAccessUnlessGranted('USER_EDIT',$this->getUser());
         $user = new User();
@@ -74,7 +74,7 @@ class UserController extends AbstractController
      *
      * @return RedirectResponse|Response
      */
-    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager)
+    public function edit(User $user, Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager)
     {
         $this->denyAccessUnlessGranted('USER_EDIT', $this->getUser());
         $form = $this->createForm(UserType::class, $user);

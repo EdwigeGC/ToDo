@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Tests\NeedLogin;
-use App\DataFixtures\TaskFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 
@@ -43,7 +42,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(200);
     }
 
-    public function testCreateActionTask()
+    public function testCreateTask()
     {
         $this->loginUser();
 
@@ -54,7 +53,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertResponseStatusCodeSame(302);
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div', 'alert.alert-success');
     }
@@ -72,7 +71,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(302);
     }
 
-    public function testEditActionTask()
+    public function testEditTask()
     {
         $this->loginUser();
         $crawler=$this->client->request('GET', '/tasks/task2/edit');
@@ -83,7 +82,7 @@ class TaskControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/tasks");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
     }
@@ -94,7 +93,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->request('GET', '/tasks/task12/delete');
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/tasks");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
     }
@@ -105,7 +104,7 @@ class TaskControllerTest extends WebTestCase
         $this->client->request('GET', '/tasks/task5/delete');
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/tasks");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
     }

@@ -4,13 +4,6 @@ namespace App\Tests;
 
 trait NeedLogin
 {
-    /*private $client;
-
-    public function __construct()
-    {
-        $this->client = static::createClient();
-    }*/
-
     public function loginAdmin ()
     {
         $crawler = $this->client->request('GET', '/login');

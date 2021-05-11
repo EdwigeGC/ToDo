@@ -77,7 +77,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects('/users');
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
     }
@@ -109,7 +109,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/users");
-        $crawler=$this->client->followRedirect();
+        $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
     }

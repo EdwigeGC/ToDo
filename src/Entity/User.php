@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * Class which represents user
  * @ORM\Table("user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email")
@@ -54,7 +55,7 @@ class User implements UserInterface
 
     /**
      * @var object
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="User", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="users", orphanRemoval=true)
      */
     private $tasks;
 

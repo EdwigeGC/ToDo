@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class which represents task
  * @ORM\Entity(repositoryClass=TaskRepository::class)
  * @ORM\Table
  */
@@ -55,7 +56,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column (type="string", length=255, nullable=true)
+     * @ORM\Column (type="string", length=255)
      * @Gedmo\Slug(fields={"title"})
      */
     private $slug;

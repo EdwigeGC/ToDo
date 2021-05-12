@@ -33,7 +33,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string",length=45)
      * @Assert\NotBlank(message="Vous devez saisir un titre.")
      */
     private $title;
@@ -56,7 +56,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column (type="string", length=255)
+     * @ORM\Column (type="string", length=45)
      * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
@@ -150,7 +150,6 @@ class Task
     public function setUsers(?User $users): self
     {
         $this->users = $users;
-
         return $this;
     }
 }

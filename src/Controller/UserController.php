@@ -26,7 +26,7 @@ class UserController extends AbstractController
      */
     public function list(UserRepository $repository)
     {
-        $this->denyAccessUnlessGranted('USER_EDIT',$this->getUser());
+        $this->denyAccessUnlessGranted('USER_MANAGEMENT', $this->getUser());
         return $this->render('user/list.html.twig', ['users' => $repository->findAll()]);
     }
 
@@ -42,7 +42,7 @@ class UserController extends AbstractController
      */
     public function create(Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager):Response
     {
-        $this->denyAccessUnlessGranted('USER_EDIT',$this->getUser());
+        $this->denyAccessUnlessGranted('USER_MANAGEMENT',$this->getUser());
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -76,7 +76,7 @@ class UserController extends AbstractController
      */
     public function edit(User $user, Request $request, UserPasswordEncoderInterface $encoder, ObjectManager $manager)
     {
-        $this->denyAccessUnlessGranted('USER_EDIT', $this->getUser());
+        $this->denyAccessUnlessGranted('USER_MANAGEMENT', $this->getUser());
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
@@ -93,5 +93,25 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+
+    /**
+     * The function deletes a user
+     *
+     * @Route("/users/{id}/delete", name="user_delete")
+     * @param User $user
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return RedirectResponse
+     */
+    public function delete(User $user, Request $request, ObjectManager $manager)
+    {
+        $this->denyAccessUnlessGranted('USER_MANAGEMENT', $this->getUser());
+        $manager->remove($user);
+        $manager->flush();
+
+        $this->addFlash('success', 'L\'utilisateur a bien été supprimé.');
+
+        return $this->redirectToRoute('user_list');
     }
 }

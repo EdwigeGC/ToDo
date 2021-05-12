@@ -18,7 +18,7 @@ class TaskVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['TASK_DELETE', 'TASK_EDIT'])
+        return in_array($attribute, ['TASK_DELETE'])
             && $subject instanceof \App\Entity\Task;
     }
 
@@ -43,15 +43,7 @@ class TaskVoter extends Voter
                     return true;
                 }
                 break;
-            case 'TASK_EDIT':
-                if($this->security->isGranted('ROLE_USER'))
-                {
-                    //the user must be logged in
-                    return true;
-                }
-                break;
         }
-
         return false;
     }
 }

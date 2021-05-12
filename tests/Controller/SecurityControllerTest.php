@@ -59,7 +59,6 @@ class SecurityControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/');
         $this->assertSelectorExists('a.pull-right.btn.btn-danger');
         $crawler->selectLink('Se déconnecter')->link();
-        $this->throwException(new \LogicException());
         $this->assertResponseStatusCodeSame(200);
     }
 }

@@ -18,7 +18,7 @@ class UserVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['USER_EDIT'])
+        return in_array($attribute, ['USER_MANAGEMENT'])
             && $subject instanceof \App\Entity\User;
     }
 
@@ -31,7 +31,7 @@ class UserVoter extends Voter
         }
 
         switch ($attribute) {
-            case 'USER_EDIT':
+            case 'USER_MANAGEMENT':
                 if ($this->security->isGranted('ROLE_ADMIN')) {
                     //only admin user can manage users
                     return true;

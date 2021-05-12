@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\NeedLogin;
+use App\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 
@@ -34,7 +35,7 @@ class TaskControllerTest extends WebTestCase
         //alert danger?
     }
 
-    public function testDisplayFormForCreateTask()
+    public function testDisplaysFormForCreateTask()
     {
         $this->loginUser();
 
@@ -58,7 +59,7 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorExists('div', 'alert.alert-success');
     }
 
-    public function testDisplayFormForEditTask()
+    public function testDisplaysFormForEditTask()
     {
         $this->loginUser();
         $this->client->request('GET', '/tasks/task2/edit');
@@ -133,11 +134,6 @@ class TaskControllerTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorExists('div.alert.alert-success');
-    }
-
-    public function tearDown():void
-    {
-
     }
 
 }

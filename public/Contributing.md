@@ -18,6 +18,6 @@
 
 ## Rules
 Please before create a pull request, be sure your code respect:
-* PHP Standard Recommendations: [PSR 1, 4 and 12](https://www.php-fig.org/psr/) 
-* [Best Practices Symfony](https://symfony.com/doc/4.4/best_practices.html)
-* Obtain Code quality "A" on Codacy
+  * PHP Standard Recommendations: [PSR 1, 4 and 12](https://www.php-fig.org/psr/) 
+  * [Best Practices Symfony](https://symfony.com/doc/4.4/best_practices.html)
+  * Obtain Code quality "A" on Codacy

@@ -41,18 +41,18 @@ Dependency used for testing the project:
 
 ## Features
 Only registered users can access to the application:
-  * Get list of all tasks to do
-  * Get list of all tasks done
-  * Get the details of a task
-  * Edit a task
-  * Mark a task as done
-  * Delete a task (if the user is the author of the task)
-  * Authenticate
+  *  Get list of all tasks to do
+  *  Get list of all tasks done
+  *  Get the details of a task
+  *  Edit a task
+  *  Mark a task as done
+  *  Delete a task (if the user is the author of the task)
+  *  Authenticate
 
 The admin can also:
-  * Create a user
-  * Edit a user
-  * Manage unassigned tasks
+  *  Create a user
+  *  Edit a user
+  *  Manage unassigned tasks
 
 Run the tests:
 In your terminal, run `vendor/bin/phpunit`

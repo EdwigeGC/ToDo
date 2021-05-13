@@ -8,7 +8,7 @@
 ## Installation
  1. Go on [the original project](https://github.com/EdwigeGC/ToDo) on GitHub
  2. Create a personal fork
- 3. Clone it on your local machine (see [README.md] for installation)
+ 3. Clone it on your local machine (see [README.md](https://github.com/EdwigeGC/ToDo/blob/main/README.md) for installation)
  4. Create a new branch and start to code
 
 ## Create a pull request
@@ -20,4 +20,5 @@
 Please before create a pull request, be sure your code respect:
   * PHP Standard Recommendations: [PSR 1, 4 and 12](https://www.php-fig.org/psr/) 
   * [Best Practices Symfony](https://symfony.com/doc/4.4/best_practices.html)
-  * Obtain Code quality "A" on Codacy
+  * Obtain Code quality "B" on Codacy
+  * Comment your code

@@ -3,7 +3,9 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
-    <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+    <div class="row">
+        <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+    </div>
     <div class="row">
         {% for task in tasks %}
         <div class="col-sm-4 col-lg-4 col-md-4">
@@ -13,7 +15,8 @@
                         <span class="glyphicon glyphicon-remove"></span>
                     </h4>
                     <h4><a href="{{ path('task_edit', {'slug' : task.slug }) }}">{{ task.title }}</a></h4>
-                    <p>{{ task.content }}</p>
+                    <p class="text-blue">Créée par {{ task.users.username }}, le {{ task.createdAt|date("d/m/Y à H:i:s") }} </p>
+                    <p class="short-content">{{ task.content }}</p>
                 </div>
                 <div>
                     <form action="{{ path('task_toggle', {'slug' : task.slug }) }}">

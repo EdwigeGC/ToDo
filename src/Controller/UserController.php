@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Task;
 use App\Repository\UserRepository;
 use App\Form\UserType;
 use Doctrine\Persistence\ObjectManager;

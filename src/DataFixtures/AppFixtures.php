@@ -45,6 +45,13 @@ class AppFixtures extends Fixture implements FixtureInterface
         $user3->setRoles(['ROLE_USER']);
         $manager->persist($user3);
 
+        $user4 = new User();
+        $user4->setUsername('userTest');
+        $user4->setEmail('user@usermail.com');
+        $user4->setPassword($this->encoder->encodePassword($user3, 'pass'));
+        $user4->setRoles(['ROLE_USER']);
+        $manager->persist($user4);
+
         //tasks
         for ($i = 1; $i <= 5; $i++) {
             $task1 = new Task();

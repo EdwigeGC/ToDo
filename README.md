@@ -62,4 +62,4 @@ photos: @SaroOh
 
 ## Contribution
 If you want to contribute to this project and make it better, your help is very welcome. 
-Look [the documentation] to see how contribute.
+Look [the documentation](https://github.com/EdwigeGC/ToDo/blob/main/public/Contributing.md) to see how contribute.

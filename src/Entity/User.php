@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -52,6 +53,14 @@ class User implements UserInterface
      * @ORM\Column (type="json")
      */
     private $roles= [];
+
+    /**
+     * @var string
+     *
+     * @ORM\Column (type="string", length=45)
+     * @Gedmo\Slug(fields={"username"})
+     */
+    private $slug;
 
     /**
      * @var object
@@ -126,6 +135,16 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
     }
 
     /**

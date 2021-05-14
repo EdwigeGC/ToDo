@@ -51,6 +51,12 @@ class UserTest extends WebTestCase
         $this->assertSame(['ROLE_USER'], $this->user->getRoles());
     }
 
+    public function testUserSlug()
+    {
+        $this->user->setSlug('newuser');
+        $this->assertSame('newuser', $this->user->getSlug());
+    }
+
     public function testEraseCredentials(): void
     {
         $this->assertNull($this->user->eraseCredentials());

@@ -3,9 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Tests\NeedLogin;
-use App\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 
 class TaskControllerTest extends WebTestCase
 {
@@ -32,7 +30,6 @@ class TaskControllerTest extends WebTestCase
         $this->client->request('GET', '/tasks');
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/login");
-        //alert danger?
     }
 
     public function testDisplaysFormForCreateTask()

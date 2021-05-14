@@ -150,6 +150,7 @@ class Task
     public function setUsers(?User $users): self
     {
         $this->users = $users;
+
         return $this;
     }
 }

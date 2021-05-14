@@ -4,11 +4,15 @@
 {% block header_img %}{% endblock %}
 
 {% block body %}
+    <div class="back-link">
+        <a href={{ path('homepage') }}>Retour à la page d'accueil</a></li>
+    </div>
+
     <div class="row">
         {{ form_start(form, {'action' : path('user_edit', {'id' : user.id})}) }}
         {{ form_widget(form) }}
 
-        <button type="submit" class="btn btn-success pull-right">Modifier</button>
+        <button type="submit" class="btn btn-success pull-right btn-form">Modifier</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

@@ -21,7 +21,7 @@ class SecurityControllerTest extends WebTestCase
         $this->client->request('GET', '/login');
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertSelectorTextContains('button', 'Se connecter');
+        $this->assertSelectorExists('button', 'Se connecter');
     }
 
     public function testLoginSuccess()

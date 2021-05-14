@@ -1,60 +1,68 @@
-<!DOCTYPE html>
-<html lang="fr">
-<html>
+<!doctype html>
+<html lang="en">
     <head>
+        <!-- Required meta tags -->
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>To Do List app</title>
+        <meta name="description" content="Daily task manager">
+        <meta name="author" content="saroOh">
 
-        <!-- Bootstrap Core CSS -->
+        <!-- Bootstrap CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
         <!-- Custom CSS -->
         <link href="{{ asset('css/shop-homepage.css') }}" rel="stylesheet">
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
-
         <script
                 src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
                 integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
                 crossorigin="anonymous">
         </script>
-
     </head>
 
     <body>
-        <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #e3f2fd;" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ path('homepage') }}">To Do List app</a>
-                    <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
-                </div>
-                <div class="collapse navbar-collapse" id="navbar">
-                    <ul class="navbar">
-                            <li class="nav-item">
-                                {% if is_granted("ROLE_ADMIN") %}
-                                <a class="nav-link" href="{{ path('user_create') }}" }}>Créer un utilisateur</a>
-                                {% endif %}
-                            </li>
-                        {% if app.user %}
-                            <a href="{{ path('app_logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
-                        {% endif %}
+        <header>
+            <nav class="navbar navbar-expand-lg" aria-label="Fifth navbar example">
+                <div class="container">
+                    <a class="navbar-brand" href="{{ path('homepage') }}">To Do List app<img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" /></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                        {% if not app.user and 'login' != app.request.attributes.get('_route') %}
-                            <a href="{{ path('app_login') }}" class="btn btn-success">Se connecter</a>
-                        {% endif %}
-                    </ul>
+                    <div class="collapse navbar-collapse" id="mainNavbar">
+                        {% if app.user %}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('task_create') }}" }}>Créer une tâche</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('task_list') }}" }}>Liste des tâches</a>
+                            </li>
+                            {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_create') }}" }}>Créer un utilisateur</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_list') }}" }}>Liste des utilisateurs</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {%  endif %}
+                        <div>
+                            <ul class="navbar me-auto mb-2 mb-lg-0">
+                                <li  class="nav-item">
+                                    {% if app.user %}
+                                        <a href="{{ path('app_logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
+
 
         <!-- Page Content -->
         <div class="container">

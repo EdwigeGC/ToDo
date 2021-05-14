@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="back-link">
+        <a href={{ path('task_list') }}>Retour à la liste des tâches</a></li>
+    </div>
+
     <div>
-        <p class="text-blue">Créée par {{ task.users.username }}, le {{ task.createdAt|date("d/m/Y à H:i:s") }} </p>
+        <p class="text-muted">Créée par {{ task.users.username }}, le {{ task.createdAt|date("d/m/Y à H:i:s") }} </p>
     </div>
 
     <div class="row">
         {{ form_start(form, {'action' : path('task_edit', { 'slug' : task.slug })}) }}
             {{ form_widget(form) }}
 
-            <button type="submit" class="btn btn-success pull-right">Enregistrer les modifications</button>
+            <button type="submit" class="btn btn-success pull-right btn-form">Enregistrer les modifications</button>
         {{ form_end(form) }}
     </div>
 {% endblock %}

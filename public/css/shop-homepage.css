@@ -4,44 +4,13 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
 
-/* Main style*/
+/* Main style */
 li {
     list-style: none;
 }
 
 .back-link {
     margin-bottom: 10px;
-}
-
-/*Navbar style*/
-.navbar {
-    background-color: #e3f2fd;
-    margin-bottom: 10px;
-  }
-
-.nav-link {
-    color:#22252a;
-}
-
-.nav-link:hover {
-    color:#43D2F2;
-}
-
-.navbar-toggler {
-    color: #22252a;
-}
-
-.slide-image {
-    width: 100%;
-}
-
-.carousel-holder {
-    margin-bottom: 30px;
-}
-
-.carousel-control,
-.item {
-    border-radius: 4px;
 }
 
 .caption {
@@ -72,14 +41,48 @@ li {
     color: #333;
 }
 
+/* Header style */
+.slide-image {
+    width: 100%;
+}
+
+.carousel-holder {
+    margin-bottom: 30px;
+}
+
+.carousel-control,
+.item {
+    border-radius: 4px;
+}
+
+/* Navbar style */
+.navbar {
+    background-color: #e3f2fd;
+    margin-bottom: 10px;
+  }
+
+.nav-link {
+    color: #22252a;
+}
+
+.nav-link:hover {
+    color: #43d2f2;
+}
+
+.navbar-toggler {
+    color: #22252a;
+}
+
+/* footer */
 footer {
     margin: 50px 0;
 }
 
-/*form style*/
+/* form style */
 .btn-form {
-    margin: 5px 0px;
+    margin: 5px 0;
 }
+
 .btn {
     margin-bottom: 15px;
 }

@@ -18,6 +18,7 @@ Installation of To Do List requires:
   * Apache Server 2.4.46
   * Composer 2.0
   * Doctrine/ORM < 2.5
+  * Bootstrap 5.0
 
 Dependency used for testing the project:
  * phpunit/phpunit < 9.5 

@@ -65,7 +65,7 @@ class UserController extends AbstractController
     /**
      * The function displays the form to edit a user
      *
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/{slug}/edit", name="user_edit")
      *
      * @param User $user
      * @param Request $request
@@ -98,7 +98,7 @@ class UserController extends AbstractController
     /**
      * The function deletes a user
      *
-     * @Route("/users/{id}/delete", name="user_delete")
+     * @Route("/users/{slug}/delete", name="user_delete")
      * @param User $user
      * @param ObjectManager $manager
      * @return RedirectResponse

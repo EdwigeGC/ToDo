@@ -85,21 +85,21 @@ class UserControllerTest extends WebTestCase
     public function testUserModificationFormForAdmin()
     {
         $this->loginAdmin();
-        $this->client->request('GET', '/users/47/edit');
+        $this->client->request('GET', '/users/usertest/edit');
         $this->assertResponseStatusCodeSame(200);
     }
 
     public function testUserModificationFormForUser()
     {
         $this->loginUser();
-        $this->client->request('GET', '/users/47/edit');
+        $this->client->request('GET', '/users/usertest/edit');
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testEditUser()
     {
         $this->loginAdmin();
-        $crawler=$this->client->request('GET', '/users/47/edit');
+        $crawler=$this->client->request('GET', '/users/usertest/edit');
         $form = $crawler->selectButton('Modifier')->form();
         $form['user[username]'] = 'new userName'; //modification du username
         $form['user[password][first]'] = 'pass';
@@ -117,7 +117,7 @@ class UserControllerTest extends WebTestCase
     public function testDeleteUser()
     {
         $this->loginAdmin();
-        $this->client->request('GET', '/users/47/delete');
+        $this->client->request('GET', '/users/usertest/delete');
         $this->assertResponseStatusCodeSame(302);
         $this->assertResponseRedirects("/users");
         $this->client->followRedirect();

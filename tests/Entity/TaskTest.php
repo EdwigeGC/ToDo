@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskTest extends WebTestCase
 {
-    private $task;
+    private Task $task;
 
     public function setUp(): void
     {

@@ -29,6 +29,7 @@ class AppFixtures extends Fixture implements FixtureInterface
         $user1->setEmail('adminUser@mail.com');
         $user1->setPassword($this->encoder->encodePassword($user1, 'pass'));
         $user1->setRoles(['ROLE_ADMIN']);
+        $user1->setSlug($user1->getUsername());
         $manager->persist($user1);
 
         $user2 = new User();
@@ -36,6 +37,7 @@ class AppFixtures extends Fixture implements FixtureInterface
         $user2->setEmail('user@mail.com');
         $user2->setPassword($this->encoder->encodePassword($user2, 'pass2'));
         $user2->setRoles(['ROLE_USER']);
+        $user2->setSlug($user2->getUsername());
         $manager->persist($user2);
 
         $user3 = new User();
@@ -43,6 +45,7 @@ class AppFixtures extends Fixture implements FixtureInterface
         $user3->setEmail('anonyme@mail.com');
         $user3->setPassword($this->encoder->encodePassword($user3, 'pass3'));
         $user3->setRoles(['ROLE_USER']);
+        $user3->setSlug($user3->getUsername());
         $manager->persist($user3);
 
         $user4 = new User();
@@ -50,6 +53,7 @@ class AppFixtures extends Fixture implements FixtureInterface
         $user4->setEmail('user@usermail.com');
         $user4->setPassword($this->encoder->encodePassword($user3, 'pass'));
         $user4->setRoles(['ROLE_USER']);
+        $user4->setSlug($user4->getUsername());
         $manager->persist($user4);
 
         //tasks

@@ -100,11 +100,10 @@ class UserController extends AbstractController
      *
      * @Route("/users/{id}/delete", name="user_delete")
      * @param User $user
-     * @param Request $request
      * @param ObjectManager $manager
      * @return RedirectResponse
      */
-    public function delete(User $user, Request $request, ObjectManager $manager)
+    public function delete(User $user, ObjectManager $manager)
     {
         $this->denyAccessUnlessGranted('USER_MANAGEMENT', $this->getUser());
         $manager->remove($user);

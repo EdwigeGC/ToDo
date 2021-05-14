@@ -2,30 +2,18 @@
 
 namespace App\Tests\Controller;
 
-use App\DataFixtures\AppFixtures;
 use App\Tests\NeedLogin;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-
 
 class TaskControllerTest extends WebTestCase
 {
     use NeedLogin;
 
     private $client;
-    private EntityManager $entityManager;
 
     public function setUp():void
     {
         $this->client = static::createClient();
-
-        TaskControllerTest::$kernel=self::bootKernel();
-
-        $this->entityManager= TaskControllerTest::$kernel->getContainer()->get('doctrine')->getManager();
-        $fixture=new AppFixtures();
-        $fixture->load($this->entityManager);
-        dump($fixture);die;
     }
 
     public function testDisplayTaskListForUser()

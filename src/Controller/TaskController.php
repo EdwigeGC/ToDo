@@ -27,7 +27,7 @@ class TaskController extends AbstractController
      */
     public function list(TaskRepository $repository): Response
     {
-        return $this->render('task/list.html.twig', ['tasks' => $repository->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $repository->findBy(['isDone'=>0])]);
     }
 
     /**
@@ -121,7 +121,7 @@ class TaskController extends AbstractController
         $task->toggle(!$task->isDone());
         $manager->flush();
 
-        $this->addFlash('success','La tâche ' .$task->getTitle(). ' a bien été marquée comme faite.');
+        $this->addFlash('success','La tâche "' .$task->getTitle(). '" a bien été marquée comme faite.');
 
         return $this->redirectToRoute('task_list');
     }
@@ -142,7 +142,7 @@ class TaskController extends AbstractController
         $manager->remove($task);
         $manager->flush();
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
+        $this->addFlash('success', 'La tâche "' .$task->getTitle(). '" a bien été supprimée.');
 
         return $this->redirectToRoute('task_list');
     }
